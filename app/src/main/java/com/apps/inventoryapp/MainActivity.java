@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.apply();
 
                 // Sign in user
-                UserItems_.intent(this).start();
+                ItemInventory_.intent(this).start();
             }
 
             // IF WRONG PASSWORD:
