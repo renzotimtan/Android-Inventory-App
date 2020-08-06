@@ -6,6 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".UserEdit">
 
+    <EditText
+        android:id="@+id/edit_password_input"
+        android:layout_width="287dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:fontFamily="@font/montserrat"
+        android:hint="@string/password_text"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_password_text" />
+
+    <EditText
+        android:id="@+id/edit_confirm_input"
+        android:layout_width="287dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:fontFamily="@font/montserrat"
+        android:hint="@string/password_text"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_confirm_text" />
+
     <TextView
         android:id="@+id/edit_header"
         android:layout_width="wrap_content"
@@ -30,30 +54,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_username_text" />
-
-    <EditText
-        android:id="@+id/edit_confirm_input"
-        android:layout_width="287dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:fontFamily="@font/montserrat"
-        android:hint="@string/password_text"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_confirm_text" />
-
-    <EditText
-        android:id="@+id/edit_password_input"
-        android:layout_width="287dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:fontFamily="@font/montserrat"
-        android:hint="@string/password_text"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_password_text" />
 
     <TextView
         android:id="@+id/edit_username_text"
@@ -95,7 +95,7 @@
         android:id="@+id/edit_save_button"
         android:layout_width="186dp"
         android:layout_height="46dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/montserrat"
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
