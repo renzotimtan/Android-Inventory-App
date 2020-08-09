@@ -10,7 +10,8 @@ public class Item extends RealmObject {
 
 
     private String user_uuid;
-    private byte[] image;
+    private String image;
+    private String image_uuid;
     private String name;
     private String description;
     private int quantity;
@@ -31,16 +32,24 @@ public class Item extends RealmObject {
         this.uuid = uuid;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getImage_uuid() {
+        return image_uuid;
+    }
+
+    public void setImage_uuid(String image_uuid) {
+        this.image_uuid = image_uuid;
     }
 
     public void setName(String name) {

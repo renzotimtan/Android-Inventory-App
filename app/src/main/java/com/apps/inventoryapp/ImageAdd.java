@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import org.androidannotations.annotations.ViewById;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 @EActivity(R.layout.activity_image_add)
 public class ImageAdd extends AppCompatActivity {
@@ -125,9 +127,15 @@ public class ImageAdd extends AppCompatActivity {
     {
         // this is the root directory for the images
         File getImageDir = getExternalCacheDir();
-
+        String image_uuid = String.format("savedImage%s",UUID.randomUUID().toString());
         // just a sample, normally you have a diff image name each time
-        File savedImage = new File(getImageDir, "savedImage.jpeg");
+        File savedImage = new File(getImageDir, image_uuid);
+
+        // Save to Shared Pref for later use
+        String abspath = savedImage.getAbsolutePath();
+        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("image_string", abspath);
 
         FileOutputStream fos = new FileOutputStream(savedImage);
         fos.write(jpeg);

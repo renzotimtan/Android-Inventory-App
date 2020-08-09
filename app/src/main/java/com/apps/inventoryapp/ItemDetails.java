@@ -7,12 +7,19 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
+import java.io.File;
 
 import io.realm.Realm;
 
@@ -31,6 +38,8 @@ public class ItemDetails extends AppCompatActivity {
     Button EditDetails;
     @ViewById
     Button DeleteDetails;
+    @ViewById(R.id.imageView2)
+    ImageView imageView;
 
     @AfterViews
     public void init(){
@@ -46,10 +55,20 @@ public class ItemDetails extends AppCompatActivity {
                 .equalTo("uuid", item_uuid)
                 .findFirst();
 
+        //Get File from item's realm path string
+        File savedImage = new File(item.getImage());
+
         //Set Text View Text
         NameDetails.setText(item.getName());
         QuantityDetails.setText(String.valueOf(item.getQuantity()));
         DescriptionDetails.setText(item.getDescription());
+
+        //Load Picasso from Realm's image
+        Picasso.get()
+                .load(savedImage)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .into(imageView);
     }
     //Starts Edit Activity
     @Click(R.id.EditDetails)
@@ -66,6 +85,7 @@ public class ItemDetails extends AppCompatActivity {
         final Item item = realm.where(Item.class)
                 .equalTo("uuid", item_uuid)
                 .findFirst();
+        final File savedImage = new File(item.getImage());
         //Confirmation on Delete
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
@@ -79,6 +99,7 @@ public class ItemDetails extends AppCompatActivity {
                             realm.beginTransaction();
                             item.deleteFromRealm();
                             realm.commitTransaction();
+                            savedImage.delete();
                         }
                         finish();
                     }

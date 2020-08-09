@@ -11,6 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+
 import javax.annotation.Nullable;
 
 import io.realm.OrderedRealmCollection;
@@ -61,6 +67,14 @@ public class ItemAdapter extends RealmRecyclerViewAdapter<Item, ItemAdapter.View
         Item i = getItem(position);
         holder.Name.setText(i.getName());
         holder.Quantity.setText(String.valueOf(i.getQuantity()));
+
+        //Picasso
+        File savedImage = new File(i.getImage());
+        Picasso.get()
+                .load(savedImage)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .into(holder.item_imageView);
 
         // Set Tags
         holder.item_addButton.setTag(i);
