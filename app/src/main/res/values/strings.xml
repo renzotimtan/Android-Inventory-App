@@ -3,4 +3,5 @@
     <string name="Login_text">Log In</string>
     <string name="username_text">Username</string>
     <string name="password_text">Password</string>
+    <string name="fileAuthority">com.apps.inventoryapp</string>
 </resources>

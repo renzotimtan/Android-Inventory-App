@@ -92,4 +92,9 @@ public class ItemAdd extends AppCompatActivity {
         super.onDestroy();
         realm.close();
     }
+
+    @Click(R.id.add_image)
+    public void addImage() {
+        ImageAdd_.intent(this).start();
+    }
 }
