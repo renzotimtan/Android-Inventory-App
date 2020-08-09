@@ -27,7 +27,7 @@ import io.realm.Realm;
 @EActivity(R.layout.activity_item_edit)
 public class ItemEdit extends AppCompatActivity {
 
-    @ViewById(R.id.imageView3)
+    @ViewById
     ImageView imageView;
     @ViewById
     EditText EditItemName;
