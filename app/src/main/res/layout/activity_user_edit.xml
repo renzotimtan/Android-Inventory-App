@@ -16,7 +16,9 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_password_text" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_password_text"
+        android:backgroundTint="@color/mainColor"
+        android:textCursorDrawable="@null"/>
 
     <EditText
         android:id="@+id/edit_confirm_input"
@@ -28,7 +30,9 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_confirm_text" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_confirm_text"
+        android:backgroundTint="@color/mainColor"
+        android:textCursorDrawable="@null"/>
 
     <TextView
         android:id="@+id/edit_header"
@@ -37,7 +41,9 @@
         android:layout_marginTop="56dp"
         android:fontFamily="@font/montserrat"
         android:text="Edit"
-        android:textSize="50sp"
+        android:textColor="@color/mainColor"
+        android:textSize="70sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +59,9 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_username_text" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_username_text"
+        android:backgroundTint="@color/mainColor"
+        android:textCursorDrawable="@null"/>
 
     <TextView
         android:id="@+id/edit_username_text"
@@ -62,6 +70,7 @@
         android:layout_marginTop="12dp"
         android:fontFamily="@font/montserrat"
         android:text="@string/username_text"
+        android:textColor="@color/mainColor"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,6 +83,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat"
         android:text="@string/password_text"
+        android:textColor="@color/mainColor"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,6 +96,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat"
         android:text="Confirm Password"
+        android:textColor="@color/mainColor"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,24 +104,33 @@
 
     <Button
         android:id="@+id/edit_save_button"
-        android:layout_width="186dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="12dp"
-        android:fontFamily="@font/montserrat"
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_confirm_input" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_confirm_input"
+        android:layout_width="265dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/montserrat"
+        android:textAllCaps="false"
+        android:textColor="@color/mainColor"
+        android:textSize="20sp"/>
 
     <Button
         android:id="@+id/edit_cancel_button"
-        android:layout_width="186dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat"
         android:text="Cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_save_button" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_save_button"
+        android:layout_width="265dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/montserrat"
+        android:textAllCaps="false"
+        android:textColor="@color/mainColor"
+        android:textSize="20sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

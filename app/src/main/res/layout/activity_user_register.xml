@@ -16,7 +16,9 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_confirm_text" />
+        app:layout_constraintTop_toBottomOf="@+id/register_confirm_text"
+        android:textCursorDrawable="@null"
+        app:backgroundTint="@color/mainColor"/>
 
     <EditText
         android:id="@+id/register_password_input"
@@ -28,7 +30,9 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_password_text" />
+        app:layout_constraintTop_toBottomOf="@+id/register_password_text"
+        android:textCursorDrawable="@null"
+        app:backgroundTint="@color/mainColor"/>
 
     <TextView
         android:id="@+id/register_header"
@@ -38,7 +42,9 @@
         android:fontFamily="@font/montserrat"
         android:text="Register"
         android:textAlignment="viewStart"
-        android:textSize="50sp"
+        android:textColor="@color/mainColor"
+        android:textSize="70sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +60,9 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_username_text" />
+        app:layout_constraintTop_toBottomOf="@+id/register_username_text"
+        android:textCursorDrawable="@null"
+        app:backgroundTint="@color/mainColor"/>
 
     <TextView
         android:id="@+id/register_username_text"
@@ -63,6 +71,7 @@
         android:layout_marginTop="12dp"
         android:fontFamily="@font/montserrat"
         android:text="Username"
+        android:textColor="@color/mainColor"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,6 +84,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat"
         android:text="Password"
+        android:textColor="@color/mainColor"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,6 +97,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat"
         android:text="Confirm Password"
+        android:textColor="@color/mainColor"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,10 +105,14 @@
 
     <Button
         android:id="@+id/register_register_button"
-        android:layout_width="186dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="265dp"
+        android:layout_height="49dp"
+        android:background="@drawable/custom_button"
         android:fontFamily="@font/montserrat"
+        android:textAllCaps="false"
+        android:textColor="@color/mainColor"
+        android:textSize="20sp"
+        android:layout_marginTop="12dp"
         android:text="Register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -106,10 +121,15 @@
 
     <Button
         android:id="@+id/register_cancel_button"
-        android:layout_width="186dp"
-        android:layout_height="46dp"
-        android:fontFamily="@font/montserrat"
         android:text="Cancel"
+        android:layout_width="265dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/montserrat"
+        android:textAllCaps="false"
+        android:textColor="@color/mainColor"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_register_button" />
