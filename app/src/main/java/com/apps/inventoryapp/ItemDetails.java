@@ -137,6 +137,17 @@ public class ItemDetails extends AppCompatActivity {
         NameDetails.setText(item.getName());
         QuantityDetails.setText(String.valueOf(item.getQuantity()));
         DescriptionDetails.setText(item.getDescription());
+
+        if (item.getImage() != null) {
+            //Get File from item's realm path string
+            File savedImage = new File(item.getImage());
+            //Load Picasso from Realm's image
+            Picasso.get()
+                    .load(savedImage)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .into(imageView);
+        }
     }
 
     public void onDestroy() {

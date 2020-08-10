@@ -50,6 +50,7 @@ public class ItemAdd extends AppCompatActivity {
     Button cancel_item_button;
 
     String image_uuid;
+    Boolean imageFound;
 
     @AfterViews
     public void checkPermissions()
@@ -91,6 +92,12 @@ public class ItemAdd extends AppCompatActivity {
     public void init(){
         realm = Realm.getDefaultInstance();
         image_uuid = String.format("savedImage%s",UUID.randomUUID().toString());
+
+        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("image_string", "");
+        editor.putString("image_uuid", "");
+        editor.apply();
     }
 
     //Click Listener for Add Button
@@ -113,9 +120,12 @@ public class ItemAdd extends AppCompatActivity {
                     .findFirst();
 
             //Used to check if image is empty
-            File imageCheck = new File(Objects.requireNonNull(prefs.getString("image_string", "")));
-            long imageLength = imageCheck.length();
-
+            if (prefs.getString("image_string","").equals(""))
+            {
+                imageFound = false;
+            }else{
+                imageFound = true;
+            }
             if (result == null) {
                 Item newItem = new Item();
                 newItem.setUuid(UUID.randomUUID().toString());
@@ -123,7 +133,7 @@ public class ItemAdd extends AppCompatActivity {
                 newItem.setName(name);
                 newItem.setQuantity(quantity);
                 newItem.setDescription(description);
-                if (imageLength > 0) {
+                if (imageFound) {
                     newItem.setImage(prefs.getString("image_string", ""));
                     newItem.setImage_uuid(prefs.getString("image_uuid", ""));
                 }
@@ -132,7 +142,6 @@ public class ItemAdd extends AppCompatActivity {
                     realm.copyToRealmOrUpdate(newItem);
                     realm.commitTransaction();
                     finish();
-                    ItemInventory_.intent(this).start();
                 } catch (Exception e) {
                     Toast t = Toast.makeText(this, "Error saving", Toast.LENGTH_SHORT);
                     t.show();

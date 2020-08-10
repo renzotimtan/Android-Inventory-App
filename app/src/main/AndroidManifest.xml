@@ -36,7 +36,6 @@
         <activity android:name=".ItemAdd_" />
         <activity android:name=".ItemInventory_" />
         <activity android:name=".UserEdit_" />
-        <activity android:name=".UserItems_" />
         <activity android:name=".UserRegister_" />
         <activity android:name=".UserAdmin_" />
         <activity android:name=".MainActivity_" >

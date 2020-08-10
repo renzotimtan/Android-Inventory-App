@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 import io.realm.Realm;
 
@@ -36,10 +37,13 @@ public class ItemEdit extends AppCompatActivity {
     @ViewById
     EditText EditDescription;
 
-
     Realm realm;
 
+    String image_uuid;
+    File savedImage;
+
     byte[] init_jpeg;
+
 
     @AfterViews
     public void init() {
@@ -49,6 +53,7 @@ public class ItemEdit extends AppCompatActivity {
 
         //Init Shared Prefs
         SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
         String item_uuid = prefs.getString("item_uuid","");
 
         //Get Item Object
@@ -64,7 +69,7 @@ public class ItemEdit extends AppCompatActivity {
         // This block is for loading the image
         if(item.getImage() != null) {
             //Get File from item's realm path string
-            File savedImage = new File(item.getImage());
+            savedImage = new File(item.getImage());
             //Load Picasso from Realm's image
             Picasso.get()
                     .load(savedImage)
@@ -77,6 +82,16 @@ public class ItemEdit extends AppCompatActivity {
             }catch (IOException e){
                 e.printStackTrace();
             }
+        }else {
+            // this is the root directory for the images
+            File getImageDir = getExternalCacheDir();
+            image_uuid = String.format("savedImage%s",UUID.randomUUID().toString());
+            savedImage = new File(getImageDir, image_uuid);
+
+            // Save to Shared Pref for later use
+            String abspath = savedImage.getAbsolutePath();
+            editor.putString("image_string", abspath);
+            editor.apply();
         }
     }
     //On Click of Save Button
@@ -118,6 +133,12 @@ public class ItemEdit extends AppCompatActivity {
                 t.show();
                 finish();
 
+                if (item.getImage() == null){
+                    realm.beginTransaction();
+                    item.setImage_uuid(image_uuid);
+                    item.setImage(prefs.getString("image_string",""));
+                    realm.commitTransaction();
+                }
             } else {
                 Toast t = Toast.makeText(this, "Name already taken", Toast.LENGTH_SHORT);
                 t.show();
@@ -201,26 +222,6 @@ public class ItemEdit extends AppCompatActivity {
         if ((realm == null) || realm.isClosed()) {
             realm = Realm.getDefaultInstance();
         }
-        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        // this is the root directory for the images
-        File getImageDir = getExternalCacheDir();
-
-        String item_uuid = prefs.getString("item_uuid","");
-
-        //Get Item Object
-        Item item = realm.where(Item.class)
-                .equalTo("uuid", item_uuid)
-                .findFirst();
-        //Instead of saving a new one, it rewrites the old directory
-        File savedImage = new File(getImageDir, item.getImage_uuid());
-
-        // Save to Shared Pref for later use
-        String abspath = savedImage.getAbsolutePath();
-        editor.putString("image_string", abspath);
-        editor.apply();
-
         FileOutputStream fos = new FileOutputStream(savedImage);
         fos.write(jpeg);
         fos.close();
