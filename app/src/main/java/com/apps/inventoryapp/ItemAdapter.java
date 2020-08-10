@@ -68,14 +68,16 @@ public class ItemAdapter extends RealmRecyclerViewAdapter<Item, ItemAdapter.View
         holder.Name.setText(i.getName());
         holder.Quantity.setText(String.valueOf(i.getQuantity()));
 
-        //Picasso
-        File savedImage = new File(i.getImage());
-        Picasso.get()
-                .load(savedImage)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .into(holder.item_imageView);
-
+        //Picasso loads savedImage to imageView
+        //If there is no image, no image is loaded
+        if (i.getImage() != null) {
+            File savedImage = new File(i.getImage());
+            Picasso.get()
+                    .load(savedImage)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .into(holder.item_imageView);
+        }
         // Set Tags
         holder.item_addButton.setTag(i);
         holder.item_minusButton.setTag(i);

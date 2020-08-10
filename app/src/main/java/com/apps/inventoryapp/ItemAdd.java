@@ -26,6 +26,7 @@ import org.androidannotations.annotations.ViewById;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.UUID;
 
 import io.realm.Realm;
@@ -108,6 +109,10 @@ public class ItemAdd extends AppCompatActivity {
                 .equalTo("name",name)
                 .findFirst();
 
+        //Used to check if image is empty
+        File imageCheck = new File(Objects.requireNonNull(prefs.getString("image_string", "")));
+        long imageLength = imageCheck.length();
+
         if (result == null){
             Item newItem = new Item();
             newItem.setUuid(UUID.randomUUID().toString());
@@ -115,9 +120,10 @@ public class ItemAdd extends AppCompatActivity {
             newItem.setName(name);
             newItem.setQuantity(quantity);
             newItem.setDescription(description);
-            newItem.setImage(prefs.getString("image_string",""));
-            newItem.setImage_uuid(prefs.getString("image_uuid",""));
-
+            if (imageLength > 0) {
+                newItem.setImage(prefs.getString("image_string", ""));
+                newItem.setImage_uuid(prefs.getString("image_uuid", ""));
+            }
             try{
                 realm.beginTransaction();
                 realm.copyToRealmOrUpdate(newItem);

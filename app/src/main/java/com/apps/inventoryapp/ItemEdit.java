@@ -55,25 +55,27 @@ public class ItemEdit extends AppCompatActivity {
                 .equalTo("uuid", item_uuid)
                 .findFirst();
 
-        //Get File from item's realm path string
-        File savedImage = new File(item.getImage());
-
         EditItemName.setText(item.getName());
         EditQuantity.setText(String.valueOf(item.getQuantity()));
         EditDescription.setText(item.getDescription());
 
-        //Load Picasso from Realm's image
-        Picasso.get()
-                .load(savedImage)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .into(imageView);
-
-        //Copies jpeg byte[] when user cancels
-        try {
-            init_jpeg = readFileToByteArray(savedImage);
-        }catch (IOException e){
-            e.printStackTrace();
+        // Checks if Item is null
+        // This block is for loading the image
+        if(item.getImage() != null) {
+            //Get File from item's realm path string
+            File savedImage = new File(item.getImage());
+            //Load Picasso from Realm's image
+            Picasso.get()
+                    .load(savedImage)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .into(imageView);
+            //Copies jpeg byte[] when user cancels
+            try {
+                init_jpeg = readFileToByteArray(savedImage);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         }
     }
     //On Click of Save Button
@@ -110,7 +112,6 @@ public class ItemEdit extends AppCompatActivity {
             t.show();
 
             finish();
-            ItemInventory_.intent(this).start();
         }else{
             Toast t = Toast.makeText(this,"Name already taken", Toast.LENGTH_SHORT);
             t.show();
@@ -129,18 +130,19 @@ public class ItemEdit extends AppCompatActivity {
                 .equalTo("uuid", item_uuid)
                 .findFirst();
 
-        //Get File from item's realm path string
-        File savedImage = new File(item.getImage());
-
-        //This Returns image to its original unchanged value
-        try {
-            FileOutputStream fos = new FileOutputStream(savedImage);
-            fos.write(init_jpeg);
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        //Checks if image is null
+        if(item.getImage()!=null) {
+            //Get File from item's realm path string
+            File savedImage = new File(item.getImage());
+            //This Returns image to its original unchanged value
+            try {
+                FileOutputStream fos = new FileOutputStream(savedImage);
+                fos.write(init_jpeg);
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
 
         finish();
     }

@@ -55,20 +55,23 @@ public class ItemDetails extends AppCompatActivity {
                 .equalTo("uuid", item_uuid)
                 .findFirst();
 
-        //Get File from item's realm path string
-        File savedImage = new File(item.getImage());
+
 
         //Set Text View Text
         NameDetails.setText(item.getName());
         QuantityDetails.setText(String.valueOf(item.getQuantity()));
         DescriptionDetails.setText(item.getDescription());
 
-        //Load Picasso from Realm's image
-        Picasso.get()
-                .load(savedImage)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .into(imageView);
+        if(item.getImage() != null) {
+            //Get File from item's realm path string
+            File savedImage = new File(item.getImage());
+            //Load Picasso from Realm's image
+            Picasso.get()
+                    .load(savedImage)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .into(imageView);
+        }
     }
     //Starts Edit Activity
     @Click(R.id.EditDetails)
@@ -85,7 +88,6 @@ public class ItemDetails extends AppCompatActivity {
         final Item item = realm.where(Item.class)
                 .equalTo("uuid", item_uuid)
                 .findFirst();
-        final File savedImage = new File(item.getImage());
         //Confirmation on Delete
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
@@ -95,11 +97,14 @@ public class ItemDetails extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if (item.getImage() != null){
+                            File savedImage = new File(item.getImage());
+                            savedImage.delete();
+                        }
                         if (item.isValid()){
                             realm.beginTransaction();
                             item.deleteFromRealm();
                             realm.commitTransaction();
-                            savedImage.delete();
                         }
                         finish();
                     }
@@ -107,7 +112,7 @@ public class ItemDetails extends AppCompatActivity {
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //do nothing
+                dialog.dismiss();
             }
         });
 
@@ -120,6 +125,5 @@ public class ItemDetails extends AppCompatActivity {
     public void onDestroy(){
         super.onDestroy();
         realm.close();
-        ItemInventory_.intent(this).start();
     }
 }

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -13,6 +14,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
+import java.io.File;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -58,7 +61,6 @@ public class ItemInventory extends AppCompatActivity {
 
     @Click(R.id.item_add_button)
     public void addItem(){
-        finish();
         ItemAdd_.intent(this).start();
     }
     @Click(R.id.item_clear_button)
@@ -67,9 +69,29 @@ public class ItemInventory extends AppCompatActivity {
         RealmResults<Item> itemResults = realm.where(Item.class)
                 .equalTo("user_uuid",prefs.getString("uuid",""))
                 .findAll();
+
+        //Deleting all the images
+        if (itemResults != null && itemResults.size() != 0){
+            for (int i = 0; i < itemResults.size(); i++){
+                Log.d("Image Exception","Working here");
+                try {
+                    Item item = itemResults.get(i);
+                    Log.d("Image Exception",item.getImage());
+                    File savedImage = new File(item.getImage());
+                    savedImage.delete();
+                }
+                catch (Exception e){
+                    Log.d("Image Exception","Didn't find this file");
+                }
+            }
+        }
+
+        //Deleting all from Realm
         realm.beginTransaction();
         itemResults.deleteAllFromRealm();
         realm.commitTransaction();
+
+
     }
 
     //Called from adapter
@@ -109,7 +131,6 @@ public class ItemInventory extends AppCompatActivity {
         editor.apply();
 
         ItemDetails_.intent(this).start();
-        finish();
     }
 
     //Realm close on Destroy
