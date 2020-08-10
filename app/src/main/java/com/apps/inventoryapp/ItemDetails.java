@@ -22,6 +22,7 @@ import org.androidannotations.annotations.ViewById;
 import java.io.File;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 
 @EActivity(R.layout.activity_item_details)
 public class ItemDetails extends AppCompatActivity {
@@ -42,13 +43,14 @@ public class ItemDetails extends AppCompatActivity {
     ImageView imageView;
 
     @AfterViews
-    public void init(){
+    public void init() {
+
         //Init Realm
         realm = Realm.getDefaultInstance();
 
         //Init Shared Prefs
         SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
-        String item_uuid = prefs.getString("item_uuid","");
+        String item_uuid = prefs.getString("item_uuid", "");
 
         //Get Item Object
         Item item = realm.where(Item.class)
@@ -56,13 +58,12 @@ public class ItemDetails extends AppCompatActivity {
                 .findFirst();
 
 
-
         //Set Text View Text
         NameDetails.setText(item.getName());
         QuantityDetails.setText(String.valueOf(item.getQuantity()));
         DescriptionDetails.setText(item.getDescription());
 
-        if(item.getImage() != null) {
+        if (item.getImage() != null) {
             //Get File from item's realm path string
             File savedImage = new File(item.getImage());
             //Load Picasso from Realm's image
@@ -73,16 +74,18 @@ public class ItemDetails extends AppCompatActivity {
                     .into(imageView);
         }
     }
+
     //Starts Edit Activity
     @Click(R.id.EditDetails)
-    public void editDetails(){
+    public void editDetails() {
         ItemEdit_.intent(this).start();
     }
+
     //Deletes Item Object
     @Click(R.id.DeleteDetails)
-    public void delete(){
+    public void delete() {
         SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
-        String item_uuid = prefs.getString("item_uuid","");
+        String item_uuid = prefs.getString("item_uuid", "");
 
         //Get Item Object
         final Item item = realm.where(Item.class)
@@ -92,16 +95,16 @@ public class ItemDetails extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("Delete Item");
-        builder.setMessage(String.format("Delete item %s?",item.getName()));
+        builder.setMessage(String.format("Delete item %s?", item.getName()));
         builder.setPositiveButton("Confirm",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (item.getImage() != null){
+                        if (item.getImage() != null) {
                             File savedImage = new File(item.getImage());
                             savedImage.delete();
                         }
-                        if (item.isValid()){
+                        if (item.isValid()) {
                             realm.beginTransaction();
                             item.deleteFromRealm();
                             realm.commitTransaction();
@@ -122,8 +125,23 @@ public class ItemDetails extends AppCompatActivity {
 
     }
 
-    public void onDestroy(){
+    public void onResume() {
+        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        String item_uuid = prefs.getString("item_uuid", "");
+
+        super.onResume();
+        Item item = realm.where(Item.class)
+                .equalTo("uuid", item_uuid)
+                .findFirst();
+
+        NameDetails.setText(item.getName());
+        QuantityDetails.setText(String.valueOf(item.getQuantity()));
+        DescriptionDetails.setText(item.getDescription());
+    }
+
+    public void onDestroy() {
         super.onDestroy();
         realm.close();
     }
+
 }

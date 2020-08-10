@@ -43,6 +43,7 @@ public class ItemEdit extends AppCompatActivity {
 
     @AfterViews
     public void init() {
+
         //Init Realm
         realm = Realm.getDefaultInstance();
 
@@ -81,40 +82,48 @@ public class ItemEdit extends AppCompatActivity {
     //On Click of Save Button
     @Click(R.id.SaveEditButton)
     public void saveEdit(){
-        //Init Shared Prefs
-        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
-        String item_uuid = prefs.getString("item_uuid","");
-
-        //Get Item Object
-        Item item = realm.where(Item.class)
-                .equalTo("uuid", item_uuid)
-                .findFirst();
 
         //Get Texts
         String name = EditItemName.getText().toString();
-        int quantity = Integer.parseInt(EditQuantity.getText().toString());
+        String quantity_text = EditQuantity.getText().toString();
         String description = EditDescription.getText().toString();
 
-        //Check for new item name
-        Item check = realm.where(Item.class)
-                .equalTo("user_uuid",item.getUser_uuid())
-                .equalTo("name",name)
-                .findFirst();
+        if (!name.isEmpty() && !quantity_text.isEmpty()) {
 
-        if (check == null || name.equals(item.getName())){
-            realm.beginTransaction();
-            item.setName(name);
-            item.setQuantity(quantity);
-            item.setDescription(description);
-            realm.commitTransaction();
+            int quantity = Integer.parseInt(quantity_text);
 
-            Toast t = Toast.makeText(this,"Item edits saved", Toast.LENGTH_SHORT);
-            t.show();
+            //Init Shared Prefs
+            SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+            String item_uuid = prefs.getString("item_uuid", "");
 
-            finish();
-        }else{
-            Toast t = Toast.makeText(this,"Name already taken", Toast.LENGTH_SHORT);
-            t.show();
+            //Get Item Object
+            Item item = realm.where(Item.class)
+                    .equalTo("uuid", item_uuid)
+                    .findFirst();
+
+            //Check for new item name
+            Item check = realm.where(Item.class)
+                    .equalTo("user_uuid", item.getUser_uuid())
+                    .equalTo("name", name)
+                    .findFirst();
+
+            if (check == null || name.equals(item.getName())) {
+                realm.beginTransaction();
+                item.setName(name);
+                item.setQuantity(quantity);
+                item.setDescription(description);
+                realm.commitTransaction();
+
+                Toast t = Toast.makeText(this, "Item edits saved", Toast.LENGTH_SHORT);
+                t.show();
+                finish();
+
+            } else {
+                Toast t = Toast.makeText(this, "Name already taken", Toast.LENGTH_SHORT);
+                t.show();
+            }
+        } else {
+            Toast.makeText(this, "Name and quantity is required", Toast.LENGTH_SHORT).show();
         }
     }
 

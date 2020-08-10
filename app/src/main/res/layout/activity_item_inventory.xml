@@ -43,10 +43,26 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/item_recycler"
-        android:layout_width="363dp"
-        android:layout_height="465dp"
-        android:layout_marginTop="56dp"
+        android:layout_width="370dp"
+        android:layout_height="409dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/items_header" />
+
+    <TextView
+        android:id="@+id/items_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/montserrat"
+        android:text="My Items"
+        android:textColor="@color/mainColor"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

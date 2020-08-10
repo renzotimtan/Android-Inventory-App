@@ -96,49 +96,53 @@ public class ItemAdd extends AppCompatActivity {
     //Click Listener for Add Button
     @Click(R.id.add_item_button)
     public void addItem(){
-        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
-        String uuid = prefs.getString("uuid","");
 
         String name = ItemName.getText().toString();
-        int quantity = Integer.parseInt(ItemQuantity.getText().toString());
+        String quantity_text = ItemQuantity.getText().toString();
         String description = ItemDescription.getText().toString();
 
-        //Check if there is item with same name for user
-        Item result = realm.where(Item.class)
-                .equalTo("user_uuid",uuid)
-                .equalTo("name",name)
-                .findFirst();
+        if (!name.isEmpty() && !quantity_text.isEmpty()) {
+            int quantity = Integer.parseInt(quantity_text);
 
-        //Used to check if image is empty
-        File imageCheck = new File(Objects.requireNonNull(prefs.getString("image_string", "")));
-        long imageLength = imageCheck.length();
+            SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+            String uuid = prefs.getString("uuid","");
+            //Check if there is item with same name for user
+            Item result = realm.where(Item.class)
+                    .equalTo("user_uuid", uuid)
+                    .equalTo("name", name)
+                    .findFirst();
 
-        if (result == null){
-            Item newItem = new Item();
-            newItem.setUuid(UUID.randomUUID().toString());
-            newItem.setUser_uuid(uuid);
-            newItem.setName(name);
-            newItem.setQuantity(quantity);
-            newItem.setDescription(description);
-            if (imageLength > 0) {
-                newItem.setImage(prefs.getString("image_string", ""));
-                newItem.setImage_uuid(prefs.getString("image_uuid", ""));
-            }
-            try{
-                realm.beginTransaction();
-                realm.copyToRealmOrUpdate(newItem);
-                realm.commitTransaction();
-                finish();
-                ItemInventory_.intent(this).start();
-            }
-            catch(Exception e){
-                Toast t = Toast.makeText(this,"Error saving", Toast.LENGTH_SHORT);
+            //Used to check if image is empty
+            File imageCheck = new File(Objects.requireNonNull(prefs.getString("image_string", "")));
+            long imageLength = imageCheck.length();
+
+            if (result == null) {
+                Item newItem = new Item();
+                newItem.setUuid(UUID.randomUUID().toString());
+                newItem.setUser_uuid(uuid);
+                newItem.setName(name);
+                newItem.setQuantity(quantity);
+                newItem.setDescription(description);
+                if (imageLength > 0) {
+                    newItem.setImage(prefs.getString("image_string", ""));
+                    newItem.setImage_uuid(prefs.getString("image_uuid", ""));
+                }
+                try {
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(newItem);
+                    realm.commitTransaction();
+                    finish();
+                    ItemInventory_.intent(this).start();
+                } catch (Exception e) {
+                    Toast t = Toast.makeText(this, "Error saving", Toast.LENGTH_SHORT);
+                    t.show();
+                }
+            } else {
+                Toast t = Toast.makeText(this, "Item name already taken", Toast.LENGTH_SHORT);
                 t.show();
             }
-        }
-        else{
-            Toast t = Toast.makeText(this,"Item name already taken", Toast.LENGTH_SHORT);
-            t.show();
+        } else {
+            Toast.makeText(this, "Name and Quantity is required", Toast.LENGTH_SHORT).show();
         }
 
     }

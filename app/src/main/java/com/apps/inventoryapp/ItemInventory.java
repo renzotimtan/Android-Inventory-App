@@ -90,8 +90,6 @@ public class ItemInventory extends AppCompatActivity {
         realm.beginTransaction();
         itemResults.deleteAllFromRealm();
         realm.commitTransaction();
-
-
     }
 
     //Called from adapter
@@ -110,16 +108,21 @@ public class ItemInventory extends AppCompatActivity {
 
     //Called from adapter
     public void subtract(View view){
+
         //Fail safe -- Checks if realm is closed
         if ((realm == null) || realm.isClosed()) {
             realm = Realm.getDefaultInstance();
         }
+
         //Get Tag
         Item item = (Item) view.getTag();
         int current_quantity = item.getQuantity();
-        realm.beginTransaction();
-        item.setQuantity(current_quantity - 1);
-        realm.commitTransaction();
+
+        if (current_quantity != 0) {
+            realm.beginTransaction();
+            item.setQuantity(current_quantity - 1);
+            realm.commitTransaction();
+        }
     }
     //Called from adapter
     public void item_edit(View view){

@@ -12,7 +12,7 @@
         android:layout_height="129dp"
         android:layout_marginTop="52dp"
         app:layout_constraintEnd_toStartOf="@+id/add_image"
-        app:layout_constraintHorizontal_bias="0.893"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/picture" />
@@ -21,18 +21,16 @@
         android:id="@+id/add_image"
         android:layout_width="107dp"
         android:layout_height="50dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="48dp"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/montserrat"
         android:text="Add Image"
         android:textAllCaps="false"
         android:textColor="@color/mainColor"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.119" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
