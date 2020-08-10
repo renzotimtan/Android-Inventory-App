@@ -104,6 +104,7 @@ public class ItemInventory extends AppCompatActivity {
         realm.beginTransaction();
         item.setQuantity(current_quantity + 1);
         realm.commitTransaction();
+        item_recycler.setAdapter(adapter);
     }
 
     //Called from adapter
@@ -123,6 +124,7 @@ public class ItemInventory extends AppCompatActivity {
             item.setQuantity(current_quantity - 1);
             realm.commitTransaction();
         }
+        item_recycler.setAdapter(adapter);
     }
     //Called from adapter
     public void item_edit(View view){
@@ -140,5 +142,10 @@ public class ItemInventory extends AppCompatActivity {
     public void onDestroy(){
         super.onDestroy();
         realm.close();
+    }
+
+    public void onResume(){
+        super.onResume();
+        item_recycler.setAdapter(adapter);
     }
 }
